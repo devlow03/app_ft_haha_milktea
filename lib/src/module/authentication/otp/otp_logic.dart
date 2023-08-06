@@ -11,13 +11,14 @@ import '../../../data/repositories/post_register_rqst.dart';
 import '../../../data/services/service.dart';
 import '../../index/index_view.dart';
 import '../sign_in/sign_in_logic.dart';
+import '../signup/signup_logic.dart';
 
 class OtpLogic extends GetxController {
   final  Services  services ;
 
   FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController codeControl = TextEditingController();
-  final logic = Get.put(Sign_inLogic(Get.find()));
+  final logic = Get.put(SignupLogic(Get.find()));
   Rxn<String>phoneNumber = Rxn();
   // Rxn<String>phoneNumber = Rxn();
   OtpLogic(this.services);
@@ -31,26 +32,44 @@ class OtpLogic extends GetxController {
   }
 
   Future verifyOtp()async {
-    // await registerWithPhone(phone: '0776506112').then((value)async{
-    //   await signIn(password: '123456');
-    //   print(">>>>>>>>>>>>${1}");
-    // });
-    // Get.snackbar(
-    //     "Thông báo mới",
-    //     "Đăng nhập tài khoản thành công"
-    // );
+
     if (codeControl.text.isEmpty) {
       Get.snackbar('Thông báo', 'Vui lòng nhập mã xác thực');
     }
     else {
-      PhoneAuthCredential credential = await PhoneAuthProvider.credential(
-        verificationId: logic.verifyId.value ?? '',
-        smsCode: codeControl.text,
-      );
-      await auth.signInWithCredential(credential).then((value) async {
-        phoneNumber.value = value.user?.phoneNumber;
-        Get.to(const PasswordPage());
-      });
+      Get.dialog( Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(
+              strokeWidth: 5,
+              color: Color(0xffffa386),
+
+            ),
+            const SizedBox(height: 20,),
+            Text("Hệ thống đang xác thực",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              decoration: TextDecoration.none
+            ),
+            )
+          ],
+        ),
+      ));
+      try{
+        PhoneAuthCredential credential = await PhoneAuthProvider.credential(
+          verificationId: logic.verifyId.value ?? '',
+          smsCode: codeControl.text,
+        );
+        await auth.signInWithCredential(credential).then((value) async {
+          phoneNumber.value = value.user?.phoneNumber;
+          Get.to(const PasswordPage());
+        });
+      }catch(e){
+        Get.back();
+        Get.snackbar("Hệ thộng xác thực thất bại","Vui lòng thử lại");
+      }
     }
   }
 

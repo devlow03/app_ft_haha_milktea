@@ -211,7 +211,8 @@ class PasswordPage extends StatelessWidget {
 
             const SizedBox(height: 10,),
             InkWell(
-              onTap: () {
+              onTap: (){
+                Get.back();
                 Get.back();
               },
               child: Center(

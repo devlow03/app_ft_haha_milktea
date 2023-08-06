@@ -1,6 +1,6 @@
 /// name : "a"
 /// email : "thien@gmail.com"
-/// password : "'"
+/// password : "FhoBKxUakCOp5r3fq8DOti63eaX2"
 /// avatar : "a.png"
 /// social : "gg"
 

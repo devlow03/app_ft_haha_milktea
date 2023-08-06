@@ -5,6 +5,7 @@ import 'package:fake_store/src/data/repositories/post_register_rqst.dart';
 import 'package:fake_store/src/data/repositories/post_social_register_rqst.dart';
 import 'package:fake_store/src/module/authentication/otp/otp_logic.dart';
 import 'package:fake_store/src/module/authentication/otp/otp_view.dart';
+import 'package:fake_store/src/module/authentication/sign_in/sign_in_view.dart';
 import 'package:fake_store/src/module/index/index_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,9 +23,10 @@ class Sign_inLogic extends GetxController {
   final  Services  services ;
   Sign_inLogic(this.services);
   FirebaseAuth auth = FirebaseAuth.instance;
-  TextEditingController phoneControl = TextEditingController();
-  Rxn<String>verifyId = Rxn();
-  Rxn<bool>signUp = Rxn(false);
+  Rxn<bool>hiddenPassword = Rxn(true);
+  TextEditingController passController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+
   @override
   void onReady() async{
     // TODO: implement onReady
@@ -32,69 +34,132 @@ class Sign_inLogic extends GetxController {
     await socialSignin;
 
   }
-  Future sendOTP()async{
-    if(phoneControl.text.isEmpty){
-      Get.snackbar('Thông báo', 'Vui lòng nhập số điện thoại');
-    }
-    else{
-      await auth.verifyPhoneNumber(
-        phoneNumber: "+84${phoneControl.text}",
-        verificationCompleted: (PhoneAuthCredential credential)async{
-          await auth.signInWithCredential(credential);
-        },
-        verificationFailed: (FirebaseAuthException e){
-          if (e.code == 'invalid-phone-number') {
-            print('The provided phone number is not valid.');
-          }
-        },
-        codeSent: (String verificationId, int? resendToken) async {
-          // Update the UI - wait for the user to enter the SMS code
-          verifyId.value = verificationId;
 
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          // Auto-resolution timed out...
-        },
-      );
-      Get.to(const OtpPage());
-    }
-  }
 
 
   Future socialSignin(User? user)async{
-    await services.postSocialRegister(body: PostSocialRegisterRqst(
-      name: user?.displayName,
-      email: user?.email,
-      password: user?.uid,
-      social: 'Google',
-      avatar: '1',
+    Get.dialog( Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            strokeWidth: 5,
+            color: Color(0xffffa386),
+
+          ),
+          const SizedBox(height: 20,),
+          Text("Hệ thống đang xử lí",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                decoration: TextDecoration.none
+            ),
+          )
+        ],
+      ),
+    ));
+    try{
+      await services.postSocialRegister(body: PostSocialRegisterRqst(
+        name: user?.displayName,
+        email: user?.email,
+        password: user?.uid,
+        social: 'Google',
+        avatar: '1',
 
 
-    )).then((value)async{
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString("token", value.accessToken??"");
-      print("token: >>>>>>>>>>>${prefs.getString("token")}");
-      print(jsonEncode(value));
-      await logic.getBanner();
-      await logic.getCategory();
-      await logic.getProductCategory();
-      Fluttertoast.showToast(
-          msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
-      Get.offAll(IndexPage());
-    });
+      )).then((value)async{
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${user?.uid}");
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("token", value.accessToken??"");
+        print("token: >>>>>>>>>>>${prefs.getString("token")}");
+        print(jsonEncode(value));
+        await logic.getBanner();
+        await logic.getCategory();
+        await logic.getProductCategory();
+        Fluttertoast.showToast(
+            msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
+        Get.offAll(IndexPage());
+      });
+    }catch(e){
+      await signOut();
+      Get.back();
+      Get.snackbar("Đăng nhập không thành công", "Vui lòng thử lại");
+    }
+
 
     print("uid: >>>>>>>>>>>>>>>>>>>>>${user?.uid}");
 
+  }
 
 
+  Future signIn()async{
+    Get.dialog( Center(
+      child: CircularProgressIndicator(
+        strokeWidth: 5,
+        color: Color(0xffffa386),
+
+      ),
+    ));
+    try{
+      await services.postLoginRsp(body: PostLoginRsqtBodies(
+        password: passController.text,
+        phone: "+84${phoneController.text}",
+      )).then((value)async{
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("token", value.accessToken??"");
+        Fluttertoast.showToast(
+            msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
+        Get.offAll(IndexPage());
+
+      });
+    }catch(e){
+      Get.back();
+      Get.snackbar("Đăng nhập không thành công", "Vui lòng kiểm tra lại số điện thoại và mật khẩu");
+    }
 
 
 
 
   }
+
+
+
   Future signOut()async{
-    await auth.signOut();
-    await services.postLogout();
+    Get.dialog( Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            strokeWidth: 5,
+            color: Color(0xffffa386),
+
+          ),
+          const SizedBox(height: 20,),
+          Text("Hệ thống đang xử lí",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                decoration: TextDecoration.none
+            ),
+          )
+        ],
+      ),
+    ));
+    try{
+
+      await auth.signOut();
+      await services.postLogout();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+    Fluttertoast.showToast(
+        msg: "Đăng xuất thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
+    // print(await prefs.get("uuid"));
+    Get.offAll(Sign_inPage());
+    }catch(e){
+      Get.back();
+      Get.snackbar("Đăng xuất không thành công", "Vui lòng thử lại");
+    }
   }
 
 }

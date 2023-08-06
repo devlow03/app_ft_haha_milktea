@@ -43,19 +43,18 @@ class Splash_screenLogic extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if(prefs.get('token')!=null){
 
-      await logic.getBanner();
-      await logic.getCategory();
-      logic.getProductCategory();
+
       await Geolocator.checkPermission();
       await Geolocator.requestPermission();
       await getCurrentLocation();
       Get.offAll(IndexPage());
     }
     else{
-      Get.offAll(Sign_inPage());
       await Geolocator.checkPermission();
       await Geolocator.requestPermission();
       await getCurrentLocation();
+      Get.offAll(Sign_inPage());
+
 
     }
   }

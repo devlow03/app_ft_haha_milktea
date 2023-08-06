@@ -22,44 +22,58 @@ class PasswordLogic extends GetxController {
 
 
   Future registerWithPhone()async{
+    Get.dialog( Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            strokeWidth: 5,
+            color: Color(0xffffa386),
+
+          ),
+          const SizedBox(height: 20,),
+          Text("Hệ thống đang xử lí",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                decoration: TextDecoration.none
+            ),
+          )
+        ],
+      ),
+    ));
     try{
       await services.postRegisterRsp(body: PostRegisterRqst(
         phone:logic.phoneNumber.value,
         password: passController.text,
-        email: "'",
         passwordConfirmation: passController.text,
       ));
-      await signIn(password: passController.text);
+      await signIn(password: passController.text,phone: logic.phoneNumber.value??'');
       await logicHome.getBanner();
       await logicHome.getCategory();
       await logicHome.getProductCategory();
       Get.snackbar(
           "Thông báo mới",
-          "Đăng nhập tài khoản thành công"
+          "Đăng ký tài khoản thành công"
       );
       Get.offAll(IndexPage());
 
     }catch(e){
-      await signIn(password: passController.text);
-      await logicHome.getBanner();
-      await logicHome.getCategory();
-      await logicHome.getProductCategory();
+      Get.back();
       Get.snackbar(
-          "Thông báo mới",
-          "Đăng nhập tài khoản thành công"
+          "Đăng ký tài khoản không thành công",
+          "Vui lòng thử lại"
       );
-      Get.offAll(IndexPage());
     }
 
 
 
   }
 
-  Future signIn({required String password})async{
+  Future signIn({required String password, required String phone})async{
     await services.postLoginRsp(body: PostLoginRsqtBodies(
-        email: "'",
         password: password,
-
+        phone: phone,
     )).then((value)async{
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();

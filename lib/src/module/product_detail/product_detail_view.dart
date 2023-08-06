@@ -36,7 +36,7 @@ class Product_detailPage extends StatelessWidget {
     final logicOption = Get.put(OptionLogic(Get.find()));
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade100,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

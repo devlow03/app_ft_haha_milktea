@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
     final logicSplash = Get.put(Splash_screenLogic());
     return Scaffold(
       // backgroundColor:Color(0xffFFE7CC),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50),
@@ -30,24 +30,24 @@ class HomePage extends StatelessWidget {
         title:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset("assets/icons/HAHA.png",
-            // width: 130,
-            //   height: 150,
-
-            ),
-
             Row(
+
               children: [
-                Icon(Icons.location_on,color: Colors.black,size: 20,),
+                Icon(Icons.location_on,color: Colors.pink,size: 20,),
                 Text("${logicSplash.street.value}, ${logicSplash.district.value}, ${logicSplash.city.value}",
                   style: TextStyle(
                       color: Colors.black,
-                    fontSize: 12
+                      fontSize: 14
                   ),
                 ),
                 Icon(Icons.keyboard_arrow_right_outlined,color: Colors.black,)
               ],
-            )
+            ),
+            // Image.asset("assets/icons/HAHA.png",
+            // ),
+            Icon(Icons.menu,color: Colors.black,)
+
+
           ],
         ),
         actions: [
@@ -57,7 +57,7 @@ class HomePage extends StatelessWidget {
 
       ),
       body: Obx(() {
-        if(logic.getCategoryRsp.value==null){
+        if((logic.getBannerRsp.value?.banner?.length??0)<0){
           return Center(
             child: CircularProgressIndicator(
               strokeWidth: 5,

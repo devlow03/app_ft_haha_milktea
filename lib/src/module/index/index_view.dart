@@ -1,4 +1,4 @@
-import 'package:fake_store/src/module/news/news_view.dart';
+import 'package:fake_store/src/module/notification/notification_view.dart';
 import 'package:fake_store/src/module/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,38 +17,20 @@ class IndexPage extends StatelessWidget {
 
     List<Map<String, dynamic>> bottomNavigationBarItems = [
       {
-        'icon': SvgPicture.asset('assets/icons/house-light.svg',
-        width: 30,
-          height: 30,
-        ),
-        'active':SvgPicture.asset('assets/icons/house-bold.svg',
-          width: 30,
-          height: 30,
-        ),
+        'icon': Icon(Icons.home_outlined),
+        'active':Icon(Icons.home),
         'label': 'Trang chủ',
         'screen': HomePage(),
       },
       {
-        'icon': SvgPicture.asset('assets/icons/notification-light.svg',
-          width: 30,
-          height: 30,
-        ),
-        'active':SvgPicture.asset('assets/icons/notification-bold.svg',
-          width: 30,
-          height: 30,
-        ),
+        'icon':Icon(Icons.notifications_active_outlined),
+        'active':Icon(Icons.notifications_active),
         'label': 'Thông báo',
-        'screen': NewsPage(),
+        'screen': NotificationPage(),
       },
       {
-        'icon': SvgPicture.asset('assets/icons/user-light.svg',
-          width: 30,
-          height: 30,
-        ),
-        'active':SvgPicture.asset('assets/icons/user-bold.svg',
-          width: 30,
-          height: 30,
-        ),
+        'icon': Icon(Icons.account_circle_outlined),
+        'active':Icon(Icons.account_circle),
         'label': 'Tài khoản',
         'screen': ProfilePage(),
       },
@@ -56,10 +38,12 @@ class IndexPage extends StatelessWidget {
     return Obx(() {
       return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-          showUnselectedLabels: false,
+          iconSize: 30,
+          // unselectedItemColor: Colors.grey,
+          // showUnselectedLabels: false,
           // selectedLabelStyle: TextStyle(fontSize: 0),
           backgroundColor: Colors.white,
-          selectedItemColor: Colors.black,
+          selectedItemColor: Color(0xffffa386),
           elevation: 0.0,
           showSelectedLabels: true,
           onTap: logic.tabSelect,

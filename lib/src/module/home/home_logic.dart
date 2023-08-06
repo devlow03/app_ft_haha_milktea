@@ -26,13 +26,13 @@ class HomeLogic extends GetxController {
   HomeLogic(this.services);
 
   @override
-  void onReady() {
+  void onReady() async{
     // TODO: implement onReady
     super.onReady();
-      getAllProduct();
-      getCategory();
-      getProductCategory();
-      getBanner();
+    await getBanner();
+    await getCategory();
+    await getProductCategory();
+
   }
 
   @override

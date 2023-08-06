@@ -1,31 +1,31 @@
-/// email : "thien1@gmail.com"
-/// password : "123457"
+/// phone : "+84776506112"
+/// password : "1234567"
 
 class PostLoginRsqtBodies {
   PostLoginRsqtBodies({
-      String? email, 
+      String? phone, 
       String? password,}){
-    _email = email;
+    _phone = phone;
     _password = password;
 }
 
   PostLoginRsqtBodies.fromJson(dynamic json) {
-    _email = json['email'];
+    _phone = json['phone'];
     _password = json['password'];
   }
-  String? _email;
+  String? _phone;
   String? _password;
-PostLoginRsqtBodies copyWith({  String? email,
+PostLoginRsqtBodies copyWith({  String? phone,
   String? password,
-}) => PostLoginRsqtBodies(  email: email ?? _email,
+}) => PostLoginRsqtBodies(  phone: phone ?? _phone,
   password: password ?? _password,
 );
-  String? get email => _email;
+  String? get phone => _phone;
   String? get password => _password;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['email'] = _email;
+    map['phone'] = _phone;
     map['password'] = _password;
     return map;
   }
