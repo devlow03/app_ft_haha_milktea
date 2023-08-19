@@ -7,6 +7,7 @@ import '../../../data/repositories/post_register_rqst.dart';
 import '../../../data/services/service.dart';
 import '../../home/home_logic.dart';
 import '../../index/index_view.dart';
+import '../../splash_screen/splash_screen_logic.dart';
 import '../otp/otp_logic.dart';
 
 class PasswordLogic extends GetxController {
@@ -19,7 +20,7 @@ class PasswordLogic extends GetxController {
   TextEditingController passController = TextEditingController();
   TextEditingController rePassController = TextEditingController();
   final logicHome = Get.put(HomeLogic(Get.find()));
-
+  final logicSplash = Get.put(Splash_screenLogic());
 
   Future registerWithPhone()async{
     Get.dialog( Center(
@@ -47,6 +48,9 @@ class PasswordLogic extends GetxController {
         phone:logic.phoneNumber.value,
         password: passController.text,
         passwordConfirmation: passController.text,
+        city: logicSplash.city.value,
+        district: logicSplash.district.value,
+        street: logicSplash.street.value
       ));
       await signIn(password: passController.text,phone: logic.phoneNumber.value??'');
       await logicHome.getBanner();
@@ -65,9 +69,6 @@ class PasswordLogic extends GetxController {
           "Vui lòng thử lại"
       );
     }
-
-
-
   }
 
   Future signIn({required String password, required String phone})async{
@@ -78,6 +79,7 @@ class PasswordLogic extends GetxController {
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString("token", value.accessToken??"");
+      await prefs.setString("uid",value.uid??"");
     });
   }
 }

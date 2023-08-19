@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../cart/cart_view.dart';
 import '../home/home_view.dart';
 import 'index_logic.dart';
 
@@ -17,10 +18,16 @@ class IndexPage extends StatelessWidget {
 
     List<Map<String, dynamic>> bottomNavigationBarItems = [
       {
-        'icon': Icon(Icons.home_outlined),
+        'icon': Icon(Icons.home),
         'active':Icon(Icons.home),
         'label': 'Trang chủ',
         'screen': HomePage(),
+      },
+      {
+        'icon': Icon(Icons.favorite_border_outlined),
+        'active':Icon(Icons.favorite),
+        'label': 'Yêu thích',
+        'screen': Text(''),
       },
       {
         'icon':Icon(Icons.notifications_active_outlined),
@@ -28,12 +35,7 @@ class IndexPage extends StatelessWidget {
         'label': 'Thông báo',
         'screen': NotificationPage(),
       },
-      {
-        'icon': Icon(Icons.account_circle_outlined),
-        'active':Icon(Icons.account_circle),
-        'label': 'Tài khoản',
-        'screen': ProfilePage(),
-      },
+
     ];
     return Obx(() {
       return Scaffold(

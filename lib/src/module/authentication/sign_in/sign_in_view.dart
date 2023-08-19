@@ -251,7 +251,7 @@ class Sign_inPage extends StatelessWidget {
 
                     child: ui.OAuthProviderButton(
                       provider: uigg.GoogleProvider(
-                          clientId: '416799852348-8b5depgb02lq1iofp65oat65eqpp7j89.apps.googleusercontent.com'),
+                          clientId: '858282805262-u2qgaph89igk449kh246hepitc3f37qj.apps.googleusercontent.com'),
                     ),
                   ),
 

@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "416799852348",
-    "project_id": "haha-2c730",
-    "storage_bucket": "haha-2c730.appspot.com"
+    "project_number": "858282805262",
+    "project_id": "appfthaha",
+    "storage_bucket": "appfthaha.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:416799852348:android:eab88ebefc528ac3834039",
+        "mobilesdk_app_id": "1:858282805262:android:65b76b7c50ba29bd80145f",
         "android_client_info": {
           "package_name": "com.example.fake_store"
         }
       },
       "oauth_client": [
         {
-          "client_id": "416799852348-8b5depgb02lq1iofp65oat65eqpp7j89.apps.googleusercontent.com",
+          "client_id": "858282805262-u2qgaph89igk449kh246hepitc3f37qj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyACL26PuGN-k6i6juokC1azQRuY6zaRdlY"
+          "current_key": "AIzaSyAldS50C-aYexDWHQpBBgWpJyqcyyFOHkg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "416799852348-8b5depgb02lq1iofp65oat65eqpp7j89.apps.googleusercontent.com",
+              "client_id": "858282805262-tm9t7ppq3hriiim0suu3jutocir0p52g.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "858282805262-4lchh53gk099e0gbrnn0inlsbo9d9439.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fakeStore"
+              }
             }
           ]
         }

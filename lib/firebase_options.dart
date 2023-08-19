@@ -50,20 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyACL26PuGN-k6i6juokC1azQRuY6zaRdlY',
-    appId: '1:416799852348:android:eab88ebefc528ac3834039',
-    messagingSenderId: '416799852348',
-    projectId: 'haha-2c730',
-    storageBucket: 'haha-2c730.appspot.com',
+    apiKey: 'AIzaSyAldS50C-aYexDWHQpBBgWpJyqcyyFOHkg',
+    appId: '1:858282805262:android:65b76b7c50ba29bd80145f',
+    messagingSenderId: '858282805262',
+    projectId: 'appfthaha',
+    storageBucket: 'appfthaha.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAYC-JEVbW8vV2UDZB_jeijU_0zhlH-rnI',
-    appId: '1:416799852348:ios:60fca57dcb6f9cb4834039',
-    messagingSenderId: '416799852348',
-    projectId: 'haha-2c730',
-    storageBucket: 'haha-2c730.appspot.com',
-    iosClientId: '416799852348-9meo161lddb3j6pouacb72gngfhjjjom.apps.googleusercontent.com',
+    apiKey: 'AIzaSyBROesYM1JKMEC0VgRKWyfB02BVU9otbKo',
+    appId: '1:858282805262:ios:8491aa6e2c80872280145f',
+    messagingSenderId: '858282805262',
+    projectId: 'appfthaha',
+    storageBucket: 'appfthaha.appspot.com',
+    androidClientId: '858282805262-17f7kcr5ftqshhh01am0iriibof6m6cu.apps.googleusercontent.com',
+    iosClientId: '858282805262-4lchh53gk099e0gbrnn0inlsbo9d9439.apps.googleusercontent.com',
     iosBundleId: 'com.example.fakeStore',
   );
 }

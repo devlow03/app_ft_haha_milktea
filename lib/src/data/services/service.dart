@@ -11,11 +11,15 @@ import 'package:get/get.dart';
 import 'package:retrofit/retrofit.dart'as rtf;
 
 import '../repositories/get_banner_rsp.dart';
+import '../repositories/get_cart_rsp.dart';
 import '../repositories/get_category_rsp.dart';
 import '../repositories/get_product_all.dart';
 import '../repositories/get_product_rsp.dart';
+import '../repositories/get_profile_rsp.dart';
 import '../repositories/get_search_rsp.dart';
+import '../repositories/post_card_rqst.dart';
 import '../repositories/post_social_register_rqst.dart';
+import '../repositories/put_update_cart_rqst.dart';
 part 'service.g.dart';
 @rtf.RestApi(baseUrl:"http://hahatea.thiendev202.id.vn/api/")
 
@@ -46,6 +50,15 @@ abstract class Services{
   Future<PostLoginRsp>postLoginRsp({@rtf.Body() required PostLoginRsqtBodies body});
   @rtf.POST('v1/logout')
   Future postLogout();
+  @rtf.POST('v1/products/cart')
+  Future postCreateCart({@rtf.Body() required PostCardRqst body});
+  @rtf.GET('v1/products/cart/{uid}')
+  Future<GetCartRsp>getCartRsp({@rtf.Path('uid') required String uid});
+  @rtf.PUT('v1/products/cart/update')
+  Future putUpdateCart({@rtf.Body() required PutUpdateCartRqst body });
+  @rtf.GET('v1/profile/{uid}')
+  Future<GetProfileRsp>getProfileRsp({@rtf.Path('uid') required String uid});
+
 
 
 

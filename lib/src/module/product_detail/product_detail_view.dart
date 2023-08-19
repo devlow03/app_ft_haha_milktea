@@ -1,7 +1,9 @@
+import 'package:fake_store/src/module/cart/cart_view.dart';
 import 'package:fake_store/src/module/search/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:intl/intl.dart';
@@ -14,19 +16,20 @@ import 'option/option_view.dart';
 import 'product_detail_logic.dart';
 
 class Product_detailPage extends StatelessWidget {
-  String? id;
+  final String id;
+  final String idProd;
   final String name;
   final String price;
   final String thumbnail;
-  final String category;
+
 
   Product_detailPage({
     Key? key,
     required this.id,
     required this.name,
     required this.price,
-
-    required this.category, required this.thumbnail,
+    required this.thumbnail,
+    required this.idProd,
   }) : super(key: key);
 
   @override
@@ -36,7 +39,7 @@ class Product_detailPage extends StatelessWidget {
     final logicOption = Get.put(OptionLogic(Get.find()));
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -73,7 +76,10 @@ class Product_detailPage extends StatelessWidget {
             stretch: true,
             actions: [
               IconButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Fluttertoast.showToast(
+                        msg: "Đã thêm sản phẩm vào yêu thích", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
+                  },
                   icon: Container(
                       padding: EdgeInsets.all(3),
                       decoration: BoxDecoration(
@@ -97,32 +103,45 @@ class Product_detailPage extends StatelessWidget {
                       ),
                       child: Icon(Icons.search))
 
-              )
+              ),
+              IconButton(
+                onPressed: (){
+                  Get.to(CartPage(),transition: Transition.rightToLeft);
+                },
+                  icon: Container(
+                      padding: EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black38,
+
+                      ),
+                      child: Icon(Icons.shopping_bag_outlined))
+              ),
             ],
 
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(0.0),
-              child: Container(
-
-                height: 32,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)
-                  )
-                ),
-                child: Container(
-                  width: 40,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(100)
-                  ),
-                ),
-              ),
-            ),
+            // bottom: PreferredSize(
+            //   preferredSize: Size.fromHeight(0.0),
+            //   child: Container(
+            //     height: 32,
+            //     alignment: Alignment.center,
+            //     decoration: BoxDecoration(
+            //         color: Colors.white,
+            //
+            //       borderRadius: BorderRadius.only(
+            //         topLeft: Radius.circular(20),
+            //         topRight: Radius.circular(20)
+            //       )
+            //     ),
+            //     child: Container(
+            //       width: 40,
+            //       height: 5,
+            //       decoration: BoxDecoration(
+            //         color: Colors.grey,
+            //         borderRadius: BorderRadius.circular(100)
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ),
           SliverToBoxAdapter(
             child: Column(
@@ -189,7 +208,14 @@ class Product_detailPage extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return SizedBox(
                                   height: MediaQuery.of(context).size.height*.7,
-                                    child: OptionPage(name: name, price: price, thumbnail: thumbnail));
+                                    child: OptionPage(
+                                      idCategory: id,
+                                        id: idProd,
+                                        name: name,
+                                        price: price,
+                                        thumbnail: thumbnail,
+                                    )
+                                );
                               },
                             );
                           },
@@ -253,13 +279,13 @@ class Product_detailPage extends StatelessWidget {
                                       Get.back();
                                       Get.to(Product_detailPage(
                                           id: id,
+                                          idProd: idProd,
                                           name: snapshot.data?.products?[index].name??'',
                                           price: snapshot.data?.products?[index].price.toString()??'',
-                                          category: category,
                                           thumbnail: snapshot.data?.products?[index].thumnail??''));
                                     },
                                     child: Row(
-                                      // crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       // mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         ClipRRect(

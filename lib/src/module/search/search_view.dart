@@ -96,11 +96,11 @@ class SearchPage extends StatelessWidget {
                           child: InkWell(
                             onTap: (){
                               Get.to(Product_detailPage(
-                                id:  logic.getSearchRsp.value?.products?[index].id.toString(),
+                                id:  logic.getSearchRsp.value?.products?[index].idCategory.toString()??'',
+                                idProd: logic.getSearchRsp.value?.products?[index].id??'',
                                 name:  logic.getSearchRsp.value?.products?[index].name??'',
                                 price: logic.getSearchRsp.value?.products?[index].price.toString()??'',
                                 // description: logic.getSearchRsp.value?.products?[ind].descript??'',
-                                category:  logic.getSearchRsp.value?.products?[index].idCategory.toString()??'',
                                 thumbnail: logic.getSearchRsp.value?.products?[index].thumnail.toString()??''));
 
                             },
@@ -200,18 +200,18 @@ class SearchPage extends StatelessWidget {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 20,
-                            crossAxisSpacing: 20,
+                            crossAxisSpacing: 40,
                             mainAxisExtent: 290),
                         itemCount: logic.getSearchRsp.value?.products?.length??0,
                         itemBuilder: (context, ind) {
                           return InkWell(
                             onTap: () {
                               Get.to(Product_detailPage(
-                                  id:  logic.getSearchRsp.value?.products?[ind].id.toString(),
+                                  id:  logic.getSearchRsp.value?.products?[ind].idCategory.toString()??'',
+                              idProd: logic.getSearchRsp.value?.products?[ind].id??'',
                               name:  logic.getSearchRsp.value?.products?[ind].name??'',
                                 price: logic.getSearchRsp.value?.products?[ind].price.toString()??'',
                                 // description: logic.getSearchRsp.value?.products?[ind].descript??'',
-                                category:  logic.getSearchRsp.value?.products?[ind].idCategory.toString()??'',
                                 thumbnail: logic.getSearchRsp.value?.products?[ind].thumnail.toString()??'',
                               ),
 

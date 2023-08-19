@@ -1,11 +1,16 @@
 import 'dart:convert';
 
 import 'package:fake_store/src/data/repositories/get_stone_rsp.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/repositories/get_sugar_rsp.dart';
 import '../../../data/repositories/get_topping_rsp.dart';
+import '../../../data/repositories/post_card_rqst.dart';
 import '../../../data/services/service.dart';
+import '../../cart/cart_view.dart';
 
 class OptionLogic extends GetxController {
   final  Services  services ;
@@ -49,6 +54,40 @@ class OptionLogic extends GetxController {
   Future<GetToppingRsp?>getTopping()async{
     getToppingRSp.value = await services.getToppingRsp();
     return getToppingRSp.value;
+  }
+
+  Future createCart({
+    required String idCategory,
+    required String id,
+    required String name,
+    required String thumbnail,
+    required String cost,
+    required String currentPrice,
+    required String quantity
+  })async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    try{
+      await services.postCreateCart(body: PostCardRqst(
+          uid: prefs.getString('uid'),
+          idCategory: idCategory,
+          id: id,
+          name:name,
+          thumbnail: thumbnail,
+          cost: cost,
+          currentPrice: currentPrice,
+          quantity: quantity
+      ));
+      Fluttertoast.showToast(
+          msg: "Thêm vào giỏ hàng thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
+      Get.to(CartPage(),transition: Transition.rightToLeft);
+      numProd.value=1;
+    }catch(e){
+      Fluttertoast.showToast(
+          msg: "Có lỗi xảy ra, vui lòng thử lại", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
+    }
+
+
   }
 
   // Future fecthData()async{

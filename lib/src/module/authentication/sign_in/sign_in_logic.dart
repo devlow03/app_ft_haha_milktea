@@ -16,8 +16,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/services/service.dart';
 import '../../home/home_logic.dart';
+import '../../splash_screen/splash_screen_logic.dart';
 
 class Sign_inLogic extends GetxController {
+  final logicSplash = Get.put(Splash_screenLogic());
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final logic = Get.put(HomeLogic(Get.find()));
   final  Services  services ;
@@ -64,13 +66,17 @@ class Sign_inLogic extends GetxController {
         email: user?.email,
         password: user?.uid,
         social: 'Google',
-        avatar: '1',
+        avatar: user?.photoURL,
+        city: logicSplash.city.value,
+        district: logicSplash.district.value,
+        street: logicSplash.street.value
 
 
       )).then((value)async{
         print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>${user?.uid}");
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("token", value.accessToken??"");
+        await prefs.setString("uid",value.uid??"");
         print("token: >>>>>>>>>>>${prefs.getString("token")}");
         print(jsonEncode(value));
         await logic.getBanner();
@@ -108,6 +114,7 @@ class Sign_inLogic extends GetxController {
 
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("token", value.accessToken??"");
+        await prefs.setString("uid",value.uid??"");
         Fluttertoast.showToast(
             msg: "Đăng nhập thành công", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, textColor: Colors.white, fontSize: 16.0);
         Get.offAll(IndexPage());

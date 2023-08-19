@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fake_store/src/data/repositories/get_product_category_rsp.dart';
+import 'package:fake_store/src/module/cart/cart_view.dart';
+import 'package:fake_store/src/module/map/map_view.dart';
 import 'package:fake_store/src/module/product_detail/product_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../widget/global_product.dart';
 import '../../widget/search_widget.dart';
+import '../profile/profile_view.dart';
 import '../splash_screen/splash_screen_logic.dart';
 import 'home_logic.dart';
 
@@ -30,28 +33,41 @@ class HomePage extends StatelessWidget {
         title:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-
-              children: [
-                Icon(Icons.location_on,color: Colors.pink,size: 20,),
-                Text("${logicSplash.street.value}, ${logicSplash.district.value}, ${logicSplash.city.value}",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14
+            InkWell(
+              onTap: (){
+                Get.to(MapPage(),transition: Transition.rightToLeft);
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.location_on,color: Colors.pink,),
+                  Text("${logicSplash.street.value}, ${logicSplash.district.value}, ${logicSplash.city.value}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 14
+                    ),
                   ),
-                ),
-                Icon(Icons.keyboard_arrow_right_outlined,color: Colors.black,)
-              ],
+                  Icon(Icons.arrow_forward_ios_outlined,color: Colors.black,size: 15,),
+                ],
+
+              ),
             ),
-            // Image.asset("assets/icons/HAHA.png",
-            // ),
-            Icon(Icons.menu,color: Colors.black,)
+
+
 
 
           ],
         ),
         actions: [
-          // Icon(Icons.location_on),
+          IconButton(
+              onPressed: (){
+                Get.to(CartPage(),transition: Transition.rightToLeft);
+              }, icon: Icon(Icons.shopping_bag_outlined,color: Colors.black,)
+          ),
+          IconButton(
+              onPressed: (){
+                Get.to(ProfilePage(),transition: Transition.rightToLeft);
+              },
+              icon:Icon(Icons.menu,color: Colors.black,)),
 
         ],
 
@@ -212,7 +228,8 @@ class HomePage extends StatelessWidget {
                                         child: InkWell(
                                             onTap: () {
                                               Get.to(Product_detailPage(
-                                                  id: logic.getCategoryRsp.value?.categories?[ind].id,
+                                                  id: logic.getCategoryRsp.value?.categories?[ind].id??'',
+                                                  idProd: snapshot.data?.products?[index].id??'',
                                                   thumbnail: snapshot.data?.products?[index]
                                                     .thumnail??'',
                                                   name: snapshot.data?.products?[index]
@@ -221,9 +238,10 @@ class HomePage extends StatelessWidget {
                                                     .price.toString()??'',
                                                 // description: snapshot.data?.products?[index]
                                                 //     .descript??'',
-                                                category: snapshot.data?.products?[index]
-                                                    .idCategory.toString()??'',
+
+
                                               ),
+                                                  transition: Transition.rightToLeft
 
                                               );
                                             },

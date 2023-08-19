@@ -9,12 +9,14 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'option_logic.dart';
 
 class OptionPage extends StatelessWidget {
+  final String idCategory;
+  final String id;
   final String name;
   final String price;
   final String thumbnail;
 
   const OptionPage(
-      {Key? key, required this.name, required this.price, required this.thumbnail})
+      {Key? key, required this.name, required this.price, required this.thumbnail, required this.id, required this.idCategory})
       : super(key: key);
 
 
@@ -401,7 +403,15 @@ class OptionPage extends StatelessWidget {
                           primary: Color(0xffffa386)
                       ),
                       onPressed: () {
-                        print(">>>>>>>>>>>>>>>>>>>>>>${logic.listTopping}");
+                        logic.createCart(
+                            idCategory: id,
+                            id: id,
+                            name: name,
+                            thumbnail: thumbnail,
+                            cost: price,
+                            currentPrice: (int.parse(price) * logic.numProd.value).toString(),
+                            quantity: logic.numProd.value.toString()
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
